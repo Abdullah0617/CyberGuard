@@ -93,7 +93,7 @@ def encrypt_text(plain_text):
     encrypt_text=cypher.encrypt(padded_text)
 
     with open("Encrypted DATA.bin","wb") as f:
-       f.write(salt + iv + encrypt_text)
+       f.write(salt + iv + key + encrypt_text)
 
     print(f"Encrypted Data is Saved as 'Encrypted Data.bin' In The Directory")    
 
@@ -103,22 +103,21 @@ def decrypt_text(file_name):
     
     salt =f_data[:16]
     iv= f_data[16:32]
-    cyphertext= f_data[32:]
-    
-    password=input("Enter the Password : ")
-
+    okey =f_data[32:64]
+    cyphertext= f_data[64:]
+    password=input("Enter the Password : ") 
     key=PBKDF2(password,salt,dkLen=32,count=100000) 
-
-    cypher=AES.new(key,AES.MODE_CBC,iv)
-
-    decrypted_text=cypher.decrypt(cyphertext)
-
-    plain_text=unpad(decrypted_text,AES.block_size)
-
-    print(f"Decrypted Text : {plain_text}\n") 
+    
+    if(key==okey):
+        cypher=AES.new(key,AES.MODE_CBC,iv)
+        decrypted_text=cypher.decrypt(cyphertext)
+        plain_text=unpad(decrypted_text,AES.block_size)
+        print(f"Decrypted Text : {plain_text}\n") 
+    else:
+        print("Invalid Password")  
      
 ip = "1.1.1.1"
-plain_text=input("Enter The  Text :")
+plain_text=input("Enter The  Text :") 
 encrypt_text(plain_text)
 file_name=input("Enter File Name")
 decrypt_text(file_name)

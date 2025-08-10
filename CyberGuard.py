@@ -1,4 +1,8 @@
 import nmap
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad, unpad
+from Crypto.Protocol.KDF import PBKDF2
 
 def avail_host (ip):
 
@@ -70,9 +74,51 @@ def route_tracer(ip):
               print(f"IP : {hop_ip}     RTT : {hop_rtt}\n\n")  
 
         else:
-               print("Trace Not Available")     
+               print("Trace Not Available")   
 
- 
+def encrypt_text(plain_text):
+
+    password=input("Enter Your Password : ")
+
+    salt =get_random_bytes(16)
+
+    key=PBKDF2(password,salt,dkLen=32,count=100000)
+
+    iv=get_random_bytes(16)
+
+    cypher=AES.new(key,AES.MODE_CBC,iv)
+    
+    padded_text=pad(plain_text.encode(),AES.block_size)
+
+    encrypt_text=cypher.encrypt(padded_text)
+
+    with open("Encrypted DATA.bin","wb") as f:
+       f.write(salt + iv + encrypt_text)
+
+    print(f"Encrypted Data is Saved as 'Encrypted Data.bin' In The Directory")    
+
+def decrypt_text(file_name): 
+    with open(file_name,"rb") as f:
+        f_data=f.read()
+    
+    salt =f_data[:16]
+    iv= f_data[16:32]
+    cyphertext= f_data[32:]
+    
+    password=input("Enter the Password : ")
+
+    key=PBKDF2(password,salt,dkLen=32,count=100000) 
+
+    cypher=AES.new(key,AES.MODE_CBC,iv)
+
+    decrypted_text=cypher.decrypt(cyphertext)
+
+    plain_text=unpad(decrypted_text,AES.block_size)
+
+    print(f"Decrypted Text : {plain_text}\n") 
+     
 ip = "1.1.1.1"
-
-route_tracer(ip)
+plain_text=input("Enter The  Text :")
+encrypt_text(plain_text)
+file_name=input("Enter File Name")
+decrypt_text(file_name)

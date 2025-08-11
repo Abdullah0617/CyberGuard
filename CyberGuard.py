@@ -118,8 +118,8 @@ def decrypt_text(file_name):
      
 inp=input("Choose The Service : \n1: IP Details\n2: Encryption And Decryption\n")
 if inp == '2':
-    inpo=input("1: Encryption\nOR\n2: Decryption\n")
-    if inpo=='1':
+    inp2=input("1: Encryption\nOR\n2: Decryption\n")
+    if inp2=='1':
        plain_text=input("Enter The  Text :") 
        encrypt_text(plain_text)
     else : 

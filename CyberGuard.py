@@ -115,13 +115,40 @@ def decrypt_text(file_name):
         print(f"Decrypted Text : {plain_text}\n") 
     else:
         print("Invalid Password")  
+while True:     
+    inp=input("Choose The Service : \n1: IP Details\n2: Encryption And Decryption\n")
+    if inp == '1':
+        while True:
+            inp2=input("\n1: Port Details\n2: Host Status\n3: OS Details")
+            ip=input("Enter The IP :\n")
+            if inp2=='1':
+             port_scanning (ip)
+             break
+            elif inp2 =='2' : 
+             avail_host (ip)
+             break
+            elif inp2 =='3' : 
+             os_scanning(ip) 
+             break
+            else:
+             print("Invalid Input\n")   
      
-inp=input("Choose The Service : \n1: IP Details\n2: Encryption And Decryption\n")
-if inp == '2':
-    inp2=input("1: Encryption\nOR\n2: Decryption\n")
-    if inp2=='1':
-       plain_text=input("Enter The  Text :") 
-       encrypt_text(plain_text)
-    else : 
-      file_name=input("Enter File Name :")
-      decrypt_text(file_name)
+        break        
+    elif inp == '2':
+        while True:
+            inp2=input("1: Encryption\nOR\n2: Decryption\n")
+            if inp2=='1':
+               plain_text=input("Enter The  Text :\n") 
+               encrypt_text(plain_text)
+               break
+            elif inp2=='2': 
+              file_name=input("Enter File Name :\n")
+              decrypt_text(file_name)
+              break
+            else:
+                print("Invalid Input\n")  
+     
+        break                    
+    else:
+        print("Invalid Input\n Please Try Again")
+                    

@@ -115,6 +115,8 @@ def decrypt_text(file_name):
         print(f"Decrypted Text : {plain_text}\n") 
     else:
         print("Invalid Password")  
+
+        route_tracer(ip)
 while True:     
     inp=input("Choose The Service : \n1: IP Details\n2: Encryption And Decryption\n")
     if inp == '1':

@@ -31,9 +31,9 @@ def port_scanning (ip):
         print(f"State : {nm[host].state()}")
         if nm[host].all_protocols():
          for proto in nm[host].all_protocols():
-             print(f"Protocola : {proto}  {nm[host][proto].keys()}")
+             print(f"Protocol : {proto}  {nm[host][proto].keys()}")
         else :
-            print("Ports Details Not Available")  
+            print("Port Details Not Available")  
 
 def os_scanning(ip):
     nm=nmap.PortScanner()
@@ -55,7 +55,7 @@ def os_scanning(ip):
                 print("OS Details Not Found")     
 
         else :
-            print("No OS Detection Not Available")   
+            print("OS Detection Not Available")   
 
 def route_tracer(ip):
     nm=nmap.PortScanner()

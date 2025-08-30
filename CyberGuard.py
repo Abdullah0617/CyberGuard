@@ -1,4 +1,6 @@
 import nmap
+import requests
+import json
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
@@ -97,6 +99,25 @@ def encrypt_text(plain_text):
 
     print(f"Encrypted Data is Saved as 'Encrypted Data.bin' In The Directory")    
 
+def url_check():
+
+    link=input("Enter the url: ")
+
+    api_key='e90aae7b6f77f64baf70ea674a4b02a33c8cacd00fccda178324284fd4f22ee3'
+    url='https://www.virustotal.com/vtapi/v2/url/report'
+
+    params={'apikey':api_key,'resource':url}
+    response=requests.get(url,params=params)
+    response_json = response.json()
+    if response_json['positives'] <= 0:
+        print("NOT MALICIOUS")
+    elif 1>=response_json['positive']>=3:
+        print("MIGHT BE MALICIOUS")
+    elif response_json['positive']>=4:
+     print("MALICIOUS")  
+    else:
+     print("URL Not Found")   
+
 def decrypt_text(file_name): 
     with open(file_name,"rb") as f:
         f_data=f.read()
@@ -117,8 +138,10 @@ def decrypt_text(file_name):
         print("Invalid Password")  
 
         route_tracer(ip)
+
+
 while True:     
-    inp=input("Choose The Service : \n1: IP Details\n2: Encryption And Decryption\n")
+    inp=input("Choose The Service : \n1: IP Details\n2: Encryption And Decryption \n3: Check Url\n")
     if inp == '1':
         while True:
             inp2=input("\n1: Port Details\n2: Host Status\n3: OS Details")
@@ -150,6 +173,9 @@ while True:
             else:
                 print("Invalid Input\n")  
      
+        break 
+    elif inp == '3':
+        url_check()   
         break                    
     else:
         print("Invalid Input\n Please Try Again")
